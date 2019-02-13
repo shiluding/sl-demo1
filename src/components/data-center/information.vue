@@ -162,7 +162,7 @@ export default {
 			let tableData = [];
 			let re = new RegExp('<.+?>|&nbsp;', 'g');
 			for (let item of this.DataList) {
-				let {...itemData} = item;
+				let { ...itemData } = item;
 				// adviceState： 0 未启用，1 发布，2 下架
 				switch (itemData.adviceState) {
 				case 0:

@@ -552,7 +552,7 @@ export default {
 		},
 		// 数据传入服务器之前，进行转换
 		transformDatas (obj) {
-			let {...datas} = obj;
+			let { ...datas } = obj;
 			// 去除字符串数据的首尾空白
 			for (let key of Object.keys(datas)) {
 				if (typeof datas[key] === 'string') {

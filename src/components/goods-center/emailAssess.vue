@@ -238,7 +238,7 @@ export default {
 		tableData () {
 			let tableData = [];
 			for (let item of this.DataList) {
-				let {...itemData} = item;
+				let { ...itemData } = item;
 				// 评估状态：0是全部，1待评估，2是已评估
 				switch (itemData.appraisalStatus) {
 				case 1:

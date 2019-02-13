@@ -1133,7 +1133,7 @@ export default {
 		handleBoxClick (value) {
 			switch (value) {
 			case 1:
-				this.formData1 = {...this.applyInfo};
+				this.formData1 = { ...this.applyInfo };
 				if (this.formData1.setYearlyPopup === 1) {
 					this.isSetYearly = true;
 				} else {
@@ -1142,7 +1142,7 @@ export default {
 				this.visible1 = true;
 				break;
 			case 2:
-				this.formData2 = {...this.customerInfo};
+				this.formData2 = { ...this.customerInfo };
 				if (this.formData2.customerType === 1) {
 					this.isCreditCode = true;
 				} else {
@@ -1151,13 +1151,13 @@ export default {
 				this.visible2 = true;
 				break;
 			case 3:
-				this.formData3 = {...this.serviceInfo};
+				this.formData3 = { ...this.serviceInfo };
 				this.visible3 = true;
 				break;
 			case 4:
 				let glist = [];
 				for (let item of this.gatheringList) {
-					let itemData = {...item};
+					let itemData = { ...item };
 					itemData.percentage = String(itemData.percentage);
 					itemData.projectAmount = String(itemData.projectAmount);
 					itemData.receivedAmount = String(itemData.receivedAmount);
@@ -1180,17 +1180,17 @@ export default {
 				this.visible4 = true;
 				break;
 			case 5:
-				this.formData5 = {...this.cooperateAgency};
+				this.formData5 = { ...this.cooperateAgency };
 				this.visible5 = true;
 				break;
 			case 6:
-				this.formData6 = {...this.cancelSide};
+				this.formData6 = { ...this.cancelSide };
 				this.visible6 = true;
 				break;
 			case 7:
 				let ilist = [];
 				for (let item of this.invoiceList) {
-					let itemData = {...item};
+					let itemData = { ...item };
 					itemData.invoiceAmount = String(itemData.invoiceAmount);
 					itemData.projectApplicationId = this.id;
 					ilist.push(itemData);
@@ -1209,7 +1209,7 @@ export default {
 		},
 		// 数据传入服务器之前，进行转换
 		transformDatas (obj) {
-			let {...datas} = obj;
+			let { ...datas } = obj;
 			// 去除字符串数据的首尾空白
 			for (let key of Object.keys(datas)) {
 				if (typeof datas[key] === 'string') {
@@ -1333,7 +1333,7 @@ export default {
 		saveInvoiceInfo (item) {
 			// 开票信息
 			let _this = this;
-			let data = {...item};
+			let data = { ...item };
 			if (trim(data.invoiceAmount) === '') {
 				this.$message('请输入开票金额');
 				return;

@@ -932,7 +932,7 @@ export default {
 				this.ispercent = false;
 				this.istail = false;
 				this.ismultiple = true;
-				this.tailAmountList.push({tailAmount: ''});
+				this.tailAmountList.push({ tailAmount: '' });
 				break;
 			}
 		},
@@ -985,11 +985,11 @@ export default {
 				this.$message('尾款格式不正确，请输入一个正整数');
 				return;
 			}
-			this.tailAmountList.push({tailAmount: ''});
+			this.tailAmountList.push({ tailAmount: '' });
 		},
 		// 数据传入服务器之前，进行转换
 		transformDatas (obj) {
-			let {...datas} = obj;
+			let { ...datas } = obj;
 			// 去除字符串数据的首尾空白
 			for (let key of Object.keys(datas)) {
 				if (typeof datas[key] === 'string') {
@@ -1028,12 +1028,12 @@ export default {
 																			for (let item of _this.urlList) {
 																				contractList.push(item.url);
 																			}
-																			let {...allFormDatas} = _this.transformDatas(_this.formDatas);
+																			let { ...allFormDatas } = _this.transformDatas(_this.formDatas);
 																			allFormDatas.categoryName = '';
 																			allFormDatas.contractList = contractList;
 																			allFormDatas.flowId = '';
 																			// 项目详细信息
-																			let {...projectApplicationInfo} = _this.HtEmProjectApplicationInfoDto;
+																			let { ...projectApplicationInfo } = _this.HtEmProjectApplicationInfoDto;
 																			projectApplicationInfo.authorizationNo = ''; // 授权号传空
 																			projectApplicationInfo.authorizationTime = ''; // 授权日期传空
 																			projectApplicationInfo.copyrightTime = ''; // 版权日期传空
@@ -1042,27 +1042,27 @@ export default {
 																			}
 																			allFormDatas.projectApplicationInfo = _this.transformDatas(projectApplicationInfo);
 																			// 项目客户信息
-																			let {...applicationCustomerInfo} = _this.EMProjectApplicationCustomerInfoDto;
+																			let { ...applicationCustomerInfo } = _this.EMProjectApplicationCustomerInfoDto;
 																			if (applicationCustomerInfo.customerType !== 1) {
 																				applicationCustomerInfo.uniformCreditCode = '';
 																			}
 																			allFormDatas.applicationCustomerInfo = _this.transformDatas(applicationCustomerInfo);
 																			// 项目服务方信息
-																			let {...applicationService} = _this.EMProjectApplicationServiceDto;
+																			let { ...applicationService } = _this.EMProjectApplicationServiceDto;
 																			allFormDatas.applicationService = _this.transformDatas(applicationService);
 																			// 项目发票信息
-																			let {...projectInvoice} = _this.HtEmProjectInvoiceDto;
+																			let { ...projectInvoice } = _this.HtEmProjectInvoiceDto;
 																			projectInvoice = _this.transformDatas(projectInvoice);
 																			projectInvoice.invoiceAmount = Number(projectInvoice.invoiceAmount);
 																			allFormDatas.projectInvoice = projectInvoice;
 																			// 项目合作公司信息
-																			let {...projectCooperateAgency} = _this.HtEmProjectCooperateAgencyDto;
+																			let { ...projectCooperateAgency } = _this.HtEmProjectCooperateAgencyDto;
 																			allFormDatas.projectCooperateAgency = _this.transformDatas(projectCooperateAgency);
 																			// 项目渠道方信息
-																			let {...projectCanalSide} = _this.HtEmProjectCanalSideDto;
+																			let { ...projectCanalSide } = _this.HtEmProjectCanalSideDto;
 																			allFormDatas.projectCanalSide = _this.transformDatas(projectCanalSide);
 																			// 收款信息
-																			let {...firstAmountObj} = _this.firstAmountObj;
+																			let { ...firstAmountObj } = _this.firstAmountObj;
 																			let HtEmProjectGatheringDto = [];
 																			firstAmountObj.projectAmount = Number(trim(firstAmountObj.projectAmount));
 																			HtEmProjectGatheringDto.push(firstAmountObj);

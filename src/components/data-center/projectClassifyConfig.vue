@@ -479,7 +479,7 @@ export default {
 			console.log(parentName);
 			let data = [];
 			for (let item of list) {
-				let {...itemData} = item;
+				let { ...itemData } = item;
 				switch (itemData.categoryType) {
 				case 0:
 					itemData.categoryTypeText = '一级分类';
@@ -580,7 +580,7 @@ export default {
 		},
 		// 点击‘编辑’按钮，显示‘编辑’弹框
 		edit (row) {
-			let {...datas} = row;
+			let { ...datas } = row;
 			datas.categorySort = String(datas.categorySort);
 			if (datas.categoryType === 0) {
 				this.isParent = false;
@@ -631,7 +631,7 @@ export default {
 		},
 		// 数据传入服务器之前，进行转换
 		transformDatas (obj) {
-			let {...datas} = obj;
+			let { ...datas } = obj;
 			// 去除字符串数据的首尾空白
 			for (let key of Object.keys(datas)) {
 				if (typeof datas[key] === 'string') {

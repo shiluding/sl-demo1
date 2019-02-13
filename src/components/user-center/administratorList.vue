@@ -325,7 +325,7 @@ export default {
 		tableData () {
 			let tableData = [];
 			for (let item of this.DataList) {
-				let {...itemData} = item;
+				let { ...itemData } = item;
 				// 启用状态:1=未启用，2=已启用，3=已停用
 				switch (itemData.enablestate) {
 				case 1:
@@ -416,7 +416,7 @@ export default {
 			this.base.axios_post(data, '/platformUser/api/easymore/platformQryUserInfoDetail', function (res) {
 				console.log(res);
 				if (res.code === 0) {
-					let {...list} = res.data;
+					let { ...list } = res.data;
 					// 启用状态:1=未启用，2=已启用，3=已停用
 					switch (list.enablestate) {
 					case 1:
@@ -464,7 +464,7 @@ export default {
 		},
 		// 点击‘编辑’按钮，显示‘编辑’弹框
 		edit (row) {
-			let {...datas} = row;
+			let { ...datas } = row;
 			this.editDatasForm = datas;
 			this.dialogTitle = '编辑';
 			this.getpkOrgName_options();
@@ -477,7 +477,7 @@ export default {
 		},
 		// 数据传入服务器之前，进行转换
 		transformDatas (obj) {
-			let {...datas} = obj;
+			let { ...datas } = obj;
 			// 去除字符串数据的首尾空白
 			for (let key of Object.keys(datas)) {
 				if (typeof datas[key] === 'string') {

@@ -108,7 +108,7 @@ export default {
 			this.base.axios_post(data, '/platformEasymall/api/easymore/queryPolicyAdviceInfo', function (res) {
 				console.log(res);
 				if (res.code === 0) {
-					_this.sourceDatas = {...res.data};
+					_this.sourceDatas = { ...res.data };
 					_this.formDatas = res.data;
 					if (/^https?:\/\/.*$/.test(res.data.adviceUrl)) {
 						_this.imageUrl = res.data.adviceUrl;
@@ -141,7 +141,7 @@ export default {
 		},
 		// 数据传入服务器之前，进行转换
 		transformDatas (obj) {
-			let {...datas} = obj;
+			let { ...datas } = obj;
 			// 去除字符串数据的首尾空白
 			datas.adviceName = trim(datas.adviceName);
 			return datas;
@@ -211,7 +211,7 @@ export default {
 		// 重置表单
 		resetForm () {
 			console.log(this.sourceDatas);
-			this.formDatas = {...this.sourceDatas};
+			this.formDatas = { ...this.sourceDatas };
 			this.imageUrl = this.sourceDatas.adviceUrl;
 		}
 	}

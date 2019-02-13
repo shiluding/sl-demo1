@@ -154,7 +154,7 @@ export default {
 		tableData () {
 			let tableData = [];
 			for (let item of this.DataList) {
-				let {...itemData} = item;
+				let { ...itemData } = item;
 				tableData.push(itemData);
 			}
 			return tableData;
