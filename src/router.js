@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import organization from '@/components/data-center/organization';
+import test1 from '@/components/test/test1';
+import moduleRegistration from '@/components/module/moduleRegistration';
+import organization from '@/components/module/organization';
+import roleDefinition from '@/components/module/roleDefinition';
 import payConfig from '@/components/data-center/payConfig';
 import logisticsConfig from '@/components/data-center/logisticsConfig';
 import areaConfig from '@/components/data-center/areaConfig';
@@ -31,7 +34,18 @@ import viewProjectDetail from '@/components/goods-center/viewProjectDetail';
 Vue.use(Router);
 
 export default new Router({
+	scrollBehavior (to, from, savedPosition) {
+		if (savedPosition) {
+		  	return savedPosition
+		} else {
+		  	return { x: 0, y: 0 }
+		}
+	},
 	routes: [
+		{
+			path: '/test1',
+			component: test1
+		},
 		{
 			path: '/',
 			component: projectClassifyConfig
@@ -42,9 +56,19 @@ export default new Router({
 			component: projectClassifyConfig
 		},
 		{
+			path: '/moduleRegistration',
+			name: 'moduleRegistration',
+			component: moduleRegistration
+		},
+		{
 			path: '/organization',
 			name: 'organization',
 			component: organization
+		},
+		{
+			path: '/roleDefinition',
+			name: 'roleDefinition',
+			component: roleDefinition
 		},
 		{
 			path: '/payConfig',

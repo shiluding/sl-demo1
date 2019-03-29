@@ -248,6 +248,13 @@
 import { trim } from '@/common/js/common.js';
 export default {
 	name: 'viewAssessState',
+	directives: {
+		focus: {
+			inserted: function (el) {
+				el.focus();
+			}
+		}
+	},
 	props: ['id'],
 	data () {
 		return {

@@ -1,5 +1,5 @@
 <template>
-	<div class="loginPage">
+	<div class="loginPage" @keyup.enter="login">
 		<div class="loginTop">
 			<img src="./assets/images/logo_login.png" alt="logoimg">
 			<span>杭州厚通网络科技有限公司</span>

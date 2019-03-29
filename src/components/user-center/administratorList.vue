@@ -75,10 +75,12 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						align="center">
+						align="center"
+						width="220">
 						<template slot-scope="scope">
 							<el-button @click="edit(scope.row)" style="background-color:#0199F9;">编辑</el-button>
 							<el-button @click="showDetails(scope.row.userId)" style="background-color:#0199F9;">查看</el-button>
+							<el-button @click="giveRole(scope.row)" style="background-color:#0199F9;">分配</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -183,6 +185,56 @@
 					</div>
 				</el-dialog>
 			</div>
+			<div class="syh-dialog">
+				<el-dialog :visible.sync="distributeVisible" width="40%" top="25vh" custom-class="rowEdit distributeDialog" :before-close="cancelDistribution" :close-on-click-modal="false" :close-on-press-escape="false">
+					<span slot="title" class="el-dialog__title">分配角色</span>
+					<p class="username">{{ distributeUserName }}</p>
+					<div class="content">
+						<div class="undistribute">
+							<h6>未分配</h6>
+							<ul>
+								<li
+									v-for="(v, k) in unDistributeRole"
+									:key="k"
+									@click="select(v, k, 1)"
+									:class="{active: k === isActive_add}">
+										{{ v.roleName }}
+								</li>
+							</ul>
+						</div>
+						<div class="distributeBtn">
+							<!-- <div class="triangle_border_right"><span></span></div> -->
+							<!-- <div class="triangle_border_nw"></div> -->
+							<!-- <div class="test_triangle_border">
+								<a href="#">三角形</a>
+								<div class="popup">
+									<span><em></em></span>纯CSS写带边框的三角形
+								</div>
+							</div> -->
+							<div class="add" @click="addRole"><span class="s1"></span><span class="s2"></span></div>
+							<div class="remove" @click="removeRole"><span class="s1"></span><span class="s2"></span></div>
+							<!-- <img src="../../assets/images/distribute/blue.png" alt="添加" @click="addRole">
+							<img src="../../assets/images/distribute/white.png" alt="取消" @click="removeRole"> -->
+						</div>
+						<div class="distributed">
+							<h6>已分配</h6>
+							<ul>
+								<li
+									v-for="(v, k) in hasDistributeRole"
+									:key="k"
+									@click="select(v, k, 0)"
+									:class="{active: k === isActive_remove}">
+										{{ v.roleName }}
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- <div slot="footer" class="dialog-footer">
+						<el-button @click="cancelDistribution" type="primary" plain size="medium">取消</el-button>
+						<el-button @click="saveDistribute" type="primary" size="medium">保存</el-button>
+					</div> -->
+				</el-dialog>
+			</div>
 		</el-main>
 		<el-footer>
 			<div class="syh-pagination">
@@ -240,6 +292,15 @@ export default {
 			dialogTitle: '新增', // 新增或编辑弹框的title设置
 			submitState: 1, // 保存类型：新增：1 编辑：0
 			pkOrgName_options: [], // 所属组织列表
+			distributeVisible: false,
+			distributeUserName: '',
+			distributeUserId: '',
+			unDistributeRole: [],
+			hasDistributeRole: [],
+			selectAddRole: null,
+			selectRemoveRole: null,
+			isActive_add: -1,
+			isActive_remove: -1,
 			rules: {
 				userName: [
 					{ required: true, whitespace: true, message: '请输入登录用户名', trigger: 'blur' },
@@ -572,6 +633,80 @@ export default {
 					_this.$message(res.message);
 				}
 			});
+		},
+		giveRole (row) {
+			this.distributeUserName = row.userName;
+			this.distributeUserId = row.userId;
+			this.distributeVisible = true;
+			this.getRoleList();
+		},
+		getRoleList () {
+			let _this = this;
+			let data = {
+				userId: this.distributeUserId
+			};
+			this.base.axios_post(data, '/platformBase/api/common/userRoleQryDistributeList', function (res) {
+				console.log(res);
+				if (res.code === 0) {
+					_this.unDistributeRole = (res.data.UnDistributeRole && res.data.UnDistributeRole.length > 0) ? res.data.UnDistributeRole : [];
+					_this.hasDistributeRole = (res.data.HasDistributeRole && res.data.HasDistributeRole.length > 0) ? res.data.HasDistributeRole : [];
+					_this.isActive_add = -1;
+					_this.isActive_remove = -1;
+				} else {
+					_this.$message(res.message);
+				}
+			});
+		},
+		cancelDistribution () {
+			this.distributeVisible = false;
+		},
+		select (value, key, type) {
+			// type 1: 添加，0：取消
+			if (type === 1) {
+				this.isActive_add = key;
+				this.selectAddRole = { ...value };
+			} else {
+				this.isActive_remove = key;
+				this.selectRemoveRole = { ...value };
+			}
+		},
+		addRole () {
+			if (!this.selectAddRole) {
+				this.$message('请选择一个未分配角色');
+				return;
+			}
+			let _this = this;
+			let data = { ...this.selectAddRole };
+			data.userId = this.distributeUserId;
+			this.base.axios_post(data, '/platformBase/api/common/userDistributeRole', function (res) {
+				console.log(res);
+				if (res.code === 0) {
+					_this.$message('分配成功');
+					_this.selectAddRole = null;
+					_this.getRoleList();
+				} else {
+					_this.$message(res.message);
+				}
+			});
+		},
+		removeRole () {
+			if (!this.selectRemoveRole) {
+				this.$message('请选择一个已分配角色');
+				return;
+			}
+			let _this = this;
+			let data = { ...this.selectRemoveRole };
+			data.userId = this.distributeUserId;
+			this.base.axios_post(data, '/platformBase/api/common/userCancelDistributeRole', function (res) {
+				console.log(res);
+				if (res.code === 0) {
+					_this.$message('取消分配成功');
+					_this.selectRemoveRole = null;
+					_this.getRoleList();
+				} else {
+					_this.$message(res.message);
+				}
+			});
 		}
 	}
 };
@@ -586,5 +721,161 @@ export default {
 }
 .syh-dialog .rowDetails .box p {
 	margin-bottom: 15px;
+}
+.distributeDialog .username {
+	margin-bottom: 15px;
+	color: #4E99E5;
+}
+.distributeDialog .content {
+	display: flex;
+	height: 300px;
+}
+.distributeDialog .undistribute,
+.distributeDialog .distributed {
+	flex: 2 1 50px;
+	background: #F7F7F7;
+}
+.distributeDialog .distributeBtn {
+	flex: 1 2;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+}
+.distributeDialog .distributeBtn img {
+	width: 50%;
+}
+.distributeDialog .distributeBtn img:first-child {
+	margin-bottom: 35px;
+}
+.distributeDialog .undistribute h6,
+.distributeDialog .distributed h6 {
+	color: #4E99E5;
+	font-size: 14px;
+	padding: 10px 0 10px 15px;
+}
+.distributeDialog .undistribute ul,
+.distributeDialog .distributed ul {
+	font-size: 13px;
+	padding-left: 30px;
+	height: 250px;
+	box-sizing: border-box;
+	overflow-y: auto;
+}
+.distributeDialog .undistribute ul li,
+.distributeDialog .distributed ul li {
+	padding: 5px 0;
+	cursor: pointer;
+}
+.distributeDialog .undistribute ul li.active,
+.distributeDialog .distributed ul li.active {
+	color: #4E99E5;
+}
+.distributeDialog .distributeBtn .add {
+	margin-bottom: 35px;
+}
+.distributeDialog .distributeBtn .add .s1 {
+	display: inline-block;
+	width: 40px;
+	height: 18px;
+	background: #0198F8;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	vertical-align: middle;
+}
+.distributeDialog .distributeBtn .add .s2 {
+	display: inline-block;
+	border-radius: 3px;
+	vertical-align: middle;
+	border-width: 18px 0 18px 26px;
+	border-style: solid;
+	border-color: transparent transparent transparent #0198F8;
+}
+.distributeDialog .distributeBtn .remove .s1 {
+	display: inline-block;
+	border-radius: 3px;
+	vertical-align: middle;
+	border-width: 18px 26px 18px 0;
+	border-style: solid;
+	border-color: transparent #E1E1E1 transparent transparent;
+}
+.distributeDialog .distributeBtn .remove .s2 {
+	display: inline-block;
+	width: 40px;
+	height: 18px;
+	background: #E1E1E1;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	vertical-align: middle;
+}
+
+/* 纯CSS写三角形-border法相关示例 */
+.triangle_border_right {
+	position: relative;
+	width: 0;
+	height: 0;
+	border-width: 26px 0 26px 26px;
+	border-style: solid;
+	border-color: transparent transparent transparent #333;
+}
+.triangle_border_right span {
+	display: block;
+	border-width: 24px 0 24px 24px;
+	border-style: solid;
+	border-color: transparent transparent transparent #0198F8;
+	position: absolute;
+	left: -25px;
+	top: -24px;
+}
+
+.triangle_border_nw {
+	width: 0;
+	height: 0;
+	border-width: 30px 30px 0 0;
+	border-style: solid;
+	border-color: #6c6 transparent transparent transparent;
+}
+
+.test_triangle_border {
+	width: 200px;
+	position: relative;
+}
+.test_triangle_border a {
+	color: #333;
+	font-weight: bold;
+}
+.test_triangle_border .popup {
+	width: 100px;
+	background: #fc0;
+	padding: 10px 20px;
+	color: #333;
+	border-radius: 4px;
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	border:1px solid #333;
+}
+.test_triangle_border .popup span {
+	display: block;
+	width: 0;
+	height: 0;
+	border-width: 0 10px 10px;
+	border-style:solid;
+    border-color:transparent transparent #333;
+	position: absolute;
+	top: -10px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.test_triangle_border .popup em {
+	display: block;
+	width: 0;
+	height: 0;
+	border-width:0 10px 10px;
+    border-style:solid;
+    border-color:transparent transparent #fc0;
+	position:absolute;
+	top: 1px;
+	left: -10px;
 }
 </style>

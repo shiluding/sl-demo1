@@ -13,7 +13,23 @@
 			<el-container class="middle_box">
 				<el-aside class="left_box" width="">
 					<el-menu class="el-menu-vertical-demo left_nav" unique-opened text-color="#fff" >
+						<el-submenu index="0">
+							<template slot="title">
+								<i class="syh-icon-module"></i>
+								<span>测试</span>
+							</template>
+							<router-link to="/test1"><el-menu-item index="0-1">测试1</el-menu-item></router-link>
+						</el-submenu>
 						<el-submenu index="1">
+							<template slot="title">
+								<i class="syh-icon-module"></i>
+								<span>组织建模</span>
+							</template>
+							<router-link to="/moduleRegistration"><el-menu-item index="1-1">功能注册</el-menu-item></router-link>
+							<router-link to="/organization"><el-menu-item index="1-2">组织定义</el-menu-item></router-link>
+							<router-link to="/roleDefinition"><el-menu-item index="1-3">角色定义</el-menu-item></router-link>
+						</el-submenu>
+						<el-submenu index="2">
 							<template slot="title">
 								<i class="syh-icon-data"></i>
 								<span>数据中心</span>
@@ -33,27 +49,27 @@
 							<router-link to="/partner"><el-menu-item index="1-13">合作伙伴</el-menu-item></router-link>
 							<router-link to="/link"><el-menu-item index="1-14">友情链接</el-menu-item></router-link>
 							<router-link to="/information"><el-menu-item index="1-15">资讯</el-menu-item></router-link> -->
-							<router-link to="/projectClassifyConfig"><el-menu-item index="1-1">服务项目分类配置</el-menu-item></router-link>
-							<router-link to="/partner"><el-menu-item index="1-2">合作伙伴</el-menu-item></router-link>
-							<router-link to="/link"><el-menu-item index="1-3">友情链接</el-menu-item></router-link>
-							<router-link to="/information"><el-menu-item index="1-4">资讯</el-menu-item></router-link>
+							<router-link to="/projectClassifyConfig"><el-menu-item index="2-1">服务项目分类配置</el-menu-item></router-link>
+							<router-link to="/partner"><el-menu-item index="2-2">合作伙伴</el-menu-item></router-link>
+							<router-link to="/link"><el-menu-item index="2-3">友情链接</el-menu-item></router-link>
+							<router-link to="/information"><el-menu-item index="2-4">资讯</el-menu-item></router-link>
 						</el-submenu>
-						<el-submenu index="2">
+						<el-submenu index="3">
 							<template slot="title">
 								<i class="syh-icon-user"></i>
 								<span>用户中心</span>
 							</template>
-							<router-link to="/administratorList"><el-menu-item index="2-1">管理员列表</el-menu-item></router-link>
-							<router-link to="/emailUserList"><el-menu-item index="2-2">易茂用户列表</el-menu-item></router-link>
+							<router-link to="/administratorList"><el-menu-item index="3-1">管理员列表</el-menu-item></router-link>
+							<router-link to="/emailUserList"><el-menu-item index="3-2">易茂用户列表</el-menu-item></router-link>
 						</el-submenu>
-						<el-submenu index="3">
+						<el-submenu index="4">
 							<template slot="title">
 								<i class="syh-icon-goods"></i>
 								<span>商品中心</span>
 							</template>
-							<router-link to="/emailGoods"><el-menu-item index="3-1">易茂科技服务商品</el-menu-item></router-link>
-							<router-link to="/emailAssess"><el-menu-item index="3-2">易茂在线评估</el-menu-item></router-link>
-							<router-link to="/emailProjectTrends"><el-menu-item index="3-3">易茂项目申报动态</el-menu-item></router-link>
+							<router-link to="/emailGoods"><el-menu-item index="4-1">易茂科技服务商品</el-menu-item></router-link>
+							<router-link to="/emailAssess"><el-menu-item index="4-2">易茂在线评估</el-menu-item></router-link>
+							<router-link to="/emailProjectTrends"><el-menu-item index="4-3">易茂项目申报动态</el-menu-item></router-link>
 						</el-submenu>
 						<!-- <el-submenu index="4">
 							<template slot="title">
@@ -209,6 +225,12 @@ export default {
 		margin-right: 5px;
 		background-size: contain;
 		background-repeat: no-repeat;
+	}
+	.syh-backmanage .middle_box .left_box .el-submenu .syh-icon-module {
+		background-image: url(./assets/images/module-white.png);
+	}
+	.syh-backmanage .middle_box .left_box .el-submenu.is-opened .syh-icon-module {
+		background-image: url(./assets/images/module-green.png);
 	}
 	.syh-backmanage .middle_box .left_box .el-submenu .syh-icon-data {
 		background-image: url(./assets/images/data-white.png);
